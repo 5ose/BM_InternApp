@@ -1,0 +1,7 @@
+# Gradle local state and build output
+.gradle/
+build/
+
+# IntelliJ IDEA
+.idea/
+*.iml
