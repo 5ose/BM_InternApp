@@ -16,6 +16,14 @@ services:
       timeout: 5s
       retries: 10
       start_period: 20s
+  seaweedfs:
+    image: chrislusf/seaweedfs
+    container_name: seaweedfs
+    command: server -dir=/data
+    ports:
+      - "9333:9333"
+      - "8090:8080"
+      - "8888:8888"
 
 volumes:
   mysql-data:
