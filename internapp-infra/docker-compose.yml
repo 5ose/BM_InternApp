@@ -1,8 +1,7 @@
 services:
+
   mysql:
-    image: mysql:8.4
-    container_name: internapp-mysql
-    restart: unless-stopped
+    image: mysql:latest
     environment:
       MYSQL_DATABASE: internship_db
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-root}
@@ -16,6 +15,7 @@ services:
       timeout: 5s
       retries: 10
       start_period: 20s
+
   seaweedfs:
     image: chrislusf/seaweedfs
     container_name: seaweedfs
