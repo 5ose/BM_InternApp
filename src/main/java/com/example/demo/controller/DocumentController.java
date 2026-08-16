@@ -1,7 +1,6 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.DocumentResponse;
-import com.example.demo.entity.Document;
 import com.example.demo.service.DocumentService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -50,12 +49,13 @@ public class DocumentController {
 
     @GetMapping("/{id}/download")
     public ResponseEntity<byte[]> downloadDocument(@PathVariable Long id) {
-        Document document = documentService.getDocumentEntity(id);
+        DocumentResponse document = documentService.getDocumentById(id)
+                .orElseThrow(() -> new NoSuchElementException("Document not found"));
         byte[] file = documentService.downloadDocument(id);
 
         return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + document.getOriginalFilename() + "\"")
-                .contentType(MediaType.parseMediaType(document.getContentType()))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + document.originalFilename() + "\"")
+                .contentType(MediaType.parseMediaType(document.contentType()))
                 .body(file);
     }
 
