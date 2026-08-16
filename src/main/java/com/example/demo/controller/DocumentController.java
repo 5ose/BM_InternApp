@@ -49,14 +49,12 @@ public class DocumentController {
 
     @GetMapping("/{id}/download")
     public ResponseEntity<byte[]> downloadDocument(@PathVariable Long id) {
-        DocumentResponse document = documentService.getDocumentById(id)
-                .orElseThrow(() -> new NoSuchElementException("Document not found"));
-        byte[] file = documentService.downloadDocument(id);
+        DocumentService.DownloadedDocument document = documentService.downloadDocument(id);
 
         return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + document.originalFilename() + "\"")
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + document.filename() + "\"")
                 .contentType(MediaType.parseMediaType(document.contentType()))
-                .body(file);
+                .body(document.content());
     }
 
     @DeleteMapping("/{id}")

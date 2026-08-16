@@ -68,13 +68,15 @@ public class DocumentService {
                 .orElseThrow(() -> new NoSuchElementException("Document not found"));
     }
 
-    public byte[] getFileContent(Long id) {
+    public DownloadedDocument downloadDocument(Long id) {
         Document document = getDocumentEntity(id);
-        return seaweedfsService.download(document.getStoragePath());
-    }
+        byte[] content = seaweedfsService.download(document.getStoragePath());
 
-    public byte[] downloadDocument(Long id) {
-        return getFileContent(id);
+        return new DownloadedDocument(
+                document.getOriginalFilename(),
+                document.getContentType(),
+                content
+        );
     }
 
     public void deleteDocument(Long id) {
@@ -93,5 +95,12 @@ public class DocumentService {
                 document.getStoragePath(),
                 document.getUploadTime()
         );
+    }
+
+    public record DownloadedDocument(
+            String filename,
+            String contentType,
+            byte[] content
+    ) {
     }
 }
