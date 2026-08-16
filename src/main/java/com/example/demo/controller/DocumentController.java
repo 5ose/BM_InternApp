@@ -1,7 +1,6 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.DocumentResponse;
-import com.example.demo.entity.Document;
 import com.example.demo.service.DocumentService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -50,13 +49,12 @@ public class DocumentController {
 
     @GetMapping("/{id}/download")
     public ResponseEntity<byte[]> downloadDocument(@PathVariable Long id) {
-        Document document = documentService.getDocumentEntity(id);
-        byte[] file = documentService.downloadDocument(id);
+        DocumentService.DownloadedDocument document = documentService.downloadDocument(id);
 
         return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + document.getOriginalFilename() + "\"")
-                .contentType(MediaType.parseMediaType(document.getContentType()))
-                .body(file);
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + document.filename() + "\"")
+                .contentType(MediaType.parseMediaType(document.contentType()))
+                .body(document.content());
     }
 
     @DeleteMapping("/{id}")
