@@ -33,8 +33,6 @@ public class Candidate {
     @Column(nullable = false)
     private CandidateStatus status;
 
-    private String tags;
-
     private Long documentId;
 
     @Column(nullable = false)
@@ -89,14 +87,6 @@ public class Candidate {
 
     public void setStatus(CandidateStatus status) {
         this.status = status;
-    }
-
-    public String getTags() {
-        return tags;
-    }
-
-    public void setTags(String tags) {
-        this.tags = tags;
     }
 
     public Long getDocumentId() {

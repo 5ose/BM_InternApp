@@ -5,7 +5,6 @@ CREATE TABLE candidates (
     phone VARCHAR(255),
     position VARCHAR(255),
     status VARCHAR(50) NOT NULL,
-    tags VARCHAR(255),
     document_id BIGINT,
     created_at DATETIME(6) NOT NULL
 );
