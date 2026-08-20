@@ -22,5 +22,5 @@ springdoc:
     path: /swagger-ui.html
 
 seaweedfs:
-  filer-url: http://localhost:8888
-  document-directory: /documents
+  master-url: http://localhost:9333
+  volume-url: http://localhost:8090

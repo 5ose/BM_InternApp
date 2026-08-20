@@ -1,7 +1,7 @@
 services:
 
   mysql:
-    image: mysql:latest
+    image: mysql:8.4
     environment:
       MYSQL_DATABASE: internship_db
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-root}
