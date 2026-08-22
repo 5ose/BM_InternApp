@@ -32,6 +32,7 @@ public class CandidateService {
         candidate.setEmail(request.email());
         candidate.setPhone(request.phone());
         candidate.setPosition(request.position());
+        candidate.setTags(request.tags());
         candidate.setDocumentId(request.documentId());
         candidate.setCreatedAt(LocalDateTime.now());
 
@@ -51,7 +52,11 @@ public class CandidateService {
         if (status != null) {
             candidates = candidateRepository.findByStatus(status);
         } else if (search != null && !search.isBlank()) {
-            candidates = candidateRepository.findByFullNameContainingIgnoreCase(search);
+            candidates = candidateRepository.findByFullNameContainingIgnoreCaseOrEmailContainingIgnoreCaseOrTagsContainingIgnoreCase(
+                    search,
+                    search,
+                    search
+            );
         } else {
             candidates = candidateRepository.findAll();
         }
@@ -74,6 +79,7 @@ public class CandidateService {
         candidate.setEmail(request.email());
         candidate.setPhone(request.phone());
         candidate.setPosition(request.position());
+        candidate.setTags(request.tags());
         candidate.setDocumentId(request.documentId());
 
         if (request.status() != null) {
@@ -102,6 +108,14 @@ public class CandidateService {
         return toResponse(savedCandidate);
     }
 
+    public CandidateResponse updateTags(Long id, String tags) {
+        Candidate candidate = getCandidateEntity(id);
+        candidate.setTags(tags);
+
+        Candidate savedCandidate = candidateRepository.save(candidate);
+        return toResponse(savedCandidate);
+    }
+
     public void deleteCandidate(Long id) {
         Candidate candidate = getCandidateEntity(id);
         candidateRepository.delete(candidate);
@@ -125,6 +139,7 @@ public class CandidateService {
                 candidate.getEmail(),
                 candidate.getPhone(),
                 candidate.getPosition(),
+                candidate.getTags(),
                 candidate.getStatus(),
                 candidate.getDocumentId(),
                 candidate.getCreatedAt()

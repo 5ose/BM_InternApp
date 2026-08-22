@@ -10,6 +10,7 @@ public record CandidateResponse(
         String email,
         String phone,
         String position,
+        String tags,
         CandidateStatus status,
         Long documentId,
         LocalDateTime createdAt
