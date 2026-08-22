@@ -5,6 +5,8 @@ services:
     environment:
       MYSQL_DATABASE: internship_db
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-root}
+      MYSQL_USER: intern_user
+      MYSQL_PASSWORD: intern_pass
     ports:
       - "3306:3306"
     volumes:

@@ -1,7 +1,10 @@
-package com.example.demo.Controller;
+package com.example.demo.controller;
 
-import com.example.demo.entity.User;
+import com.example.demo.dto.UserDto;
 import com.example.demo.service.UserService;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,12 +20,13 @@ public class UserController {
     }
 
     @GetMapping
-    public List<User> getAllUsers() {
+    public List<UserDto> getAllUsers() {
         return userService.getAllUsers();
     }
 
     @PostMapping
-    public User createUser(@RequestBody User user) {
-        return userService.createUser(user);
+    public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto user) {
+        UserDto createdUser = userService.createUser(user);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
     }
 }

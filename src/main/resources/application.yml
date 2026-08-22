@@ -4,8 +4,8 @@ spring:
 
   datasource:
     url: ${DB_URL:jdbc:mysql://localhost:3306/internship_db}
-    username: ${DB_USERNAME:root}
-    password: ${DB_PASSWORD:root}
+    username: ${DB_USERNAME:intern_user}
+    password: ${DB_PASSWORD:intern_pass}
 
   jpa:
     hibernate:

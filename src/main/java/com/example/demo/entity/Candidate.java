@@ -29,6 +29,8 @@ public class Candidate {
 
     private String position;
 
+    private String tags;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private CandidateStatus status;
@@ -79,6 +81,14 @@ public class Candidate {
 
     public void setPosition(String position) {
         this.position = position;
+    }
+
+    public String getTags() {
+        return tags;
+    }
+
+    public void setTags(String tags) {
+        this.tags = tags;
     }
 
     public CandidateStatus getStatus() {

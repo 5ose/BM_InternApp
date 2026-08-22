@@ -16,6 +16,8 @@ public record CandidateRequest(
 
         String position,
 
+        String tags,
+
         CandidateStatus status,
 
         Long documentId

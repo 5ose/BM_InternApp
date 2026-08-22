@@ -35,6 +35,12 @@ public class DocumentController {
         return ResponseEntity.status(HttpStatus.CREATED).body(document);
     }
 
+    @PostMapping(value = "/bulk", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<List<DocumentResponse>> uploadDocuments(@RequestParam("files") List<MultipartFile> files) {
+        List<DocumentResponse> documents = documentService.uploadDocuments(files);
+        return ResponseEntity.status(HttpStatus.CREATED).body(documents);
+    }
+
     @GetMapping
     public List<DocumentResponse> getDocuments() {
         return documentService.getAllDocuments();

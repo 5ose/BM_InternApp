@@ -16,10 +16,11 @@ public class JwtService {
                     .getBytes(StandardCharsets.UTF_8)
     );
 
-    public String generateToken(String username) {
+    public String generateToken(String username, String role) {
 
         return Jwts.builder()
                 .subject(username)
+                .claim("role", role)
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60))
                 .signWith(secretKey)
@@ -30,9 +31,9 @@ public class JwtService {
 
         try {
             Jwts.parser()
-                    .setSigningKey(secretKey)
+                    .verifyWith(secretKey)
                     .build()
-                    .parseClaimsJws(token);
+                    .parseSignedClaims(token);
 
             return true;
 
@@ -47,5 +48,14 @@ public class JwtService {
                 .parseSignedClaims(token)
                 .getPayload()
                 .getSubject();
+    }
+
+    public String extractRole(String token) {
+        return Jwts.parser()
+                .verifyWith(secretKey)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload()
+                .get("role", String.class);
     }
 }

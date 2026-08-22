@@ -68,6 +68,11 @@ public class CandidateController {
         return candidateService.attachDocument(id, documentId);
     }
 
+    @PatchMapping("/{id}/tags")
+    public CandidateResponse updateTags(@PathVariable Long id, @RequestParam String tags) {
+        return candidateService.updateTags(id, tags);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCandidate(@PathVariable Long id) {
         candidateService.deleteCandidate(id);

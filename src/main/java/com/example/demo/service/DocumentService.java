@@ -51,6 +51,16 @@ public class DocumentService {
         return toResponse(savedDocument);
     }
 
+    public List<DocumentResponse> uploadDocuments(List<MultipartFile> files) {
+        if (files == null || files.isEmpty()) {
+            throw new IllegalArgumentException("At least one document file is required");
+        }
+
+        return files.stream()
+                .map(this::uploadDocument)
+                .toList();
+    }
+
     public List<DocumentResponse> getAllDocuments() {
         return documentRepository.findAll()
                 .stream()

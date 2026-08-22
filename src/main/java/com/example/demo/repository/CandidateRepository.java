@@ -10,5 +10,9 @@ public interface CandidateRepository extends JpaRepository<Candidate, Long> {
 
     List<Candidate> findByStatus(CandidateStatus status);
 
-    List<Candidate> findByFullNameContainingIgnoreCase(String fullName);
+    List<Candidate> findByFullNameContainingIgnoreCaseOrEmailContainingIgnoreCaseOrTagsContainingIgnoreCase(
+            String fullName,
+            String email,
+            String tags
+    );
 }

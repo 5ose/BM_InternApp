@@ -1,5 +1,6 @@
 package com.example.demo.dto;
 
+import com.example.demo.entity.UserRole;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -17,6 +18,8 @@ public record UserDto(
 
         @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
         @NotBlank(message = "Password is required")
-        String password
+        String password,
+
+        UserRole role
 ) {
 }
