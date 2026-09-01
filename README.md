@@ -53,27 +53,30 @@ Access rules:
 
 ## Folder Structure
 
-```text
 BM_InternApp/
-+-- src/
-|   +-- main/
-|   |   +-- java/com/example/demo/
-|   |   |   +-- config/        # Security, JWT filter, Swagger config
-|   |   |   +-- controller/    # API controllers
-|   |   |   +-- dto/           # Request/response objects
-|   |   |   +-- entity/        # Database entities and enums
-|   |   |   +-- mapper/        # Entity/DTO mapping
-|   |   |   +-- repository/    # JPA repositories
-|   |   |   +-- service/       # Business logic
-|   |   +-- resources/
-|   |       +-- db/migration/  # Flyway database migrations
-|   |       +-- application.yml
-|   +-- test/
-+-- internapp-infra/
-|   +-- docker-compose.yml     # MySQL and SeaweedFS
-+-- build.gradle
-+-- settings.gradle
-```
+├── src/
+│   ├── main/
+│   │   ├── java/
+│   │   │   └── com/
+│   │   │       └── example/
+│   │   │           └── demo/
+│   │   │               ├── config/
+│   │   │               ├── controller/
+│   │   │               ├── dto/
+│   │   │               ├── entity/
+│   │   │               ├── mapper/
+│   │   │               ├── repository/
+│   │   │               └── service/
+│   │   └── resources/
+│   │       ├── db/
+│   │       │   └── migration/
+│   │       └── application.yml
+│   └── test/
+├── internapp-infra/
+│   └── docker-compose.yml
+├── build.gradle
+└── settings.gradle
+
 
 ## Database Migrations
 
