@@ -2,20 +2,20 @@
 
 Backend API for a simple recruitment management platform.
 
-The project helps HR teams manage users, uploaded candidate documents, and candidate profiles. It includes JWT authentication, role-based access control, MySQL persistence, Flyway migrations, Swagger documentation, and SeaweedFS file storage.
+The project helps HR teams manage users, uploaded candidate documents, and candidate profiles. It includes JWT authentication, role-based access control, MySQL persistence, Flyway migrations, Swagger/OpenAPI documentation, and SeaweedFS file storage.
 
 ## Features
 
-- User management
-- Login with JWT token
-- Role-based access control
-- Upload candidate CVs/documents
-- Upload documents in bulk
-- Download and delete documents
-- Create and manage candidate profiles
-- Track candidate status
-- Add tags to candidates
-- Attach uploaded documents to candidates
+* User management
+* Login with JWT authentication
+* Role-based access control
+* Upload candidate CVs/documents
+* Bulk document uploads
+* Download and delete documents
+* Create and manage candidate profiles
+* Track candidate status
+* Add tags to candidates
+* Attach uploaded documents to candidates
 
 ## Roles
 
@@ -29,30 +29,31 @@ INTERVIEWER
 
 Access rules:
 
-| Role | Access |
-| --- | --- |
-| `ADMIN` | Can manage users, candidates, and documents |
-| `HR` | Can manage candidates and documents |
-| `INTERVIEWER` | Can view candidates/documents and update candidate status |
+| Role          | Access                                                |
+| ------------- | ----------------------------------------------------- |
+| `ADMIN`       | Manage users, candidates, and documents               |
+| `HR`          | Manage candidates and documents                       |
+| `INTERVIEWER` | View candidates/documents and update candidate status |
 
 ## Technologies
 
-- Java 25
-- Spring Boot 4.1
-- Spring Web MVC
-- Spring Data JPA
-- Spring Security
-- JWT
-- MySQL
-- Flyway
-- SeaweedFS
-- Swagger/OpenAPI
-- Gradle
-- Docker Compose
-- JUnit
+* Java 25
+* Spring Boot 4.1
+* Spring Web MVC
+* Spring Data JPA
+* Spring Security
+* JWT
+* MySQL
+* Flyway
+* SeaweedFS
+* Swagger/OpenAPI
+* Gradle
+* Docker Compose
+* JUnit
 
 ## Folder Structure
 
+```text
 BM_InternApp/
 ├── src/
 │   ├── main/
@@ -76,11 +77,11 @@ BM_InternApp/
 │   └── docker-compose.yml
 ├── build.gradle
 └── settings.gradle
-
+```
 
 ## Database Migrations
 
-Flyway migrations are in:
+Flyway migrations are located in:
 
 ```text
 src/main/resources/db/migration
@@ -95,7 +96,7 @@ V3__create_candidates_table.sql
 V4__add_user_roles_and_candidate_tags.sql
 ```
 
-Important: after a migration has already run in MySQL, do not edit it. Create a new migration instead.
+**Important:** Once a migration has been executed against the database, do not modify it. Create a new migration for any subsequent database changes.
 
 ## Setup
 
@@ -105,13 +106,15 @@ Make sure Docker is running, then start MySQL and SeaweedFS:
 docker compose -f internapp-infra/docker-compose.yml up -d
 ```
 
-Check containers:
+Check the containers:
 
 ```bash
 docker compose -f internapp-infra/docker-compose.yml ps
 ```
 
-The project uses these default database settings:
+### MySQL
+
+The default database configuration is:
 
 ```text
 Database: internship_db
@@ -119,6 +122,8 @@ Username: intern_user
 Password: intern_pass
 Port: 3306
 ```
+
+### SeaweedFS
 
 SeaweedFS runs on:
 
@@ -141,7 +146,7 @@ Run the full build:
 ./gradlew build
 ```
 
-If Flyway fails because local migrations changed during development, reset the local database:
+If Flyway fails because local migrations were changed during development, reset the local database:
 
 ```bash
 docker compose -f internapp-infra/docker-compose.yml down -v
@@ -149,17 +154,17 @@ docker compose -f internapp-infra/docker-compose.yml up -d
 ./gradlew build
 ```
 
-Warning: `down -v` deletes local MySQL data.
+> **Warning:** `down -v` deletes the local MySQL data.
 
 ## Run
 
-Start the Spring Boot app:
+Start the Spring Boot application:
 
 ```bash
 ./gradlew bootRun
 ```
 
-The app runs on:
+The application runs on:
 
 ```text
 http://localhost:8080
@@ -189,7 +194,7 @@ VALUES
 ('interviewer', 'interviewer@test.com', '123', 'INTERVIEWER');
 ```
 
-Passwords are plain text for now because this is a simple internship project version.
+> **Note:** Passwords are stored as plain text for now because this is a simple internship project version. This should be replaced with password hashing such as BCrypt in a production environment.
 
 ## Authentication
 
@@ -199,9 +204,9 @@ Login:
 POST /auth/login?username=admin&password=123
 ```
 
-The response is a JWT token.
+The response contains a JWT token.
 
-For protected APIs, send:
+For protected APIs, send the token using:
 
 ```text
 Authorization: Bearer <token>
@@ -225,7 +230,7 @@ GET  /users
 POST /users
 ```
 
-Example create user body:
+Example request body:
 
 ```json
 {
@@ -247,13 +252,13 @@ GET    /api/documents/{id}/download
 DELETE /api/documents/{id}
 ```
 
-Single upload uses multipart form key:
+Single document upload uses the multipart form key:
 
 ```text
 file
 ```
 
-Bulk upload uses multipart form key:
+Bulk document upload uses:
 
 ```text
 files
@@ -274,7 +279,7 @@ PATCH  /api/candidates/{id}/tags?tags=java,spring
 DELETE /api/candidates/{id}
 ```
 
-Example candidate body:
+Example candidate request body:
 
 ```json
 {
@@ -299,7 +304,7 @@ REJECTED
 
 ## Testing With Bruno
 
-Create a Bruno environment:
+Create a Bruno environment with:
 
 ```text
 baseUrl = http://localhost:8080
@@ -312,13 +317,15 @@ Login first:
 POST {{baseUrl}}/auth/login?username=admin&password=123
 ```
 
-Copy the token, then add this header to protected requests:
+Copy the returned token and add it to protected requests:
 
 ```text
 Authorization: Bearer {{token}}
 ```
 
-For document upload:
+### Document Upload
+
+For a single document:
 
 ```text
 Body: Multipart Form
@@ -326,7 +333,7 @@ Key: file
 Type: File
 ```
 
-For bulk document upload:
+For bulk document uploads:
 
 ```text
 Body: Multipart Form
@@ -334,41 +341,41 @@ Key: files
 Type: File
 ```
 
-Add multiple `files` rows for multiple uploads.
+Add multiple `files` rows to upload multiple documents.
 
 ## Useful Commands
 
-Start infrastructure:
+### Start Infrastructure
 
 ```bash
 docker compose -f internapp-infra/docker-compose.yml up -d
 ```
 
-Stop infrastructure:
+### Stop Infrastructure
 
 ```bash
 docker compose -f internapp-infra/docker-compose.yml down
 ```
 
-View logs:
+### View Infrastructure Logs
 
 ```bash
 docker compose -f internapp-infra/docker-compose.yml logs -f
 ```
 
-Run app:
+### Run Application
 
 ```bash
 ./gradlew bootRun
 ```
 
-Build app:
+### Build Application
 
 ```bash
 ./gradlew build
 ```
 
-Compile only:
+### Compile Only
 
 ```bash
 ./gradlew compileJava
